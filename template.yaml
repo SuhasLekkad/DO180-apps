@@ -1,36 +1,40 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: test-debug-action
-  title: 'Debug Template'
-  description: Template per la creazione di massimo 4 nuovi topic su Red Hat AMQ Streams. Permette, inoltre, la registrazione di un singolo microservizio come producer/consumer per tutti i topic. Non è possibile inserire più di un microservizio.
-  tags:
-    - kafka
-    - topic
-    - consumer
-    - producer
-  links:
-    - url: https://google.com
-      title: Guida al Template
+  name: HTTP-testing
+  title: Http testing for post/get
+  description: Testing get functionality with get
 spec:
-  owner: group:default/devhub_admin
-  type: 'Technical Resources'
-  parameters:
-    - title: Testing Suhas 
-      required:
-        - ambiente
+  type: service
 
-      properties:
-        ambiente:
-          title: Testing 
-          type: string
-          description: Testing Suhas
-          default: 'Testing'
-          readOnly: true
-        
   steps:
-    - id: debugLog
-      name: debuglog
+    - id: backstage-request
+      name: backstage request
+      action: http:backstage:request
+      input:
+        method: 'GET'
+        path: '/proxy/httpbin/headers'
+        headers:
+          test: 'hello'
+          foo: 'bar'
+
+    - id: log-response
+      name: Log response
       action: debug:log
       input:
-        message: this is a test message
+        message: |
+          **Status code:**
+          ${{ steps.backstage-request.output.code }}
+
+          **User-Agent:**
+          ${{ steps.backstage-request.output.headers["user-agent"] }}
+
+  output:
+    text:
+      - title: Response
+        content: |
+          **Status code:**
+          ${{ steps.backstage-request.output.code }}
+
+          **User-Agent:**
+          ${{ steps.backstage-request.output.headers["user-agent"] }}
