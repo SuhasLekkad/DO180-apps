@@ -26,7 +26,6 @@ spec:
           type: string
           description: Testing
           default: 'Suhas'
-          readOnly: true
         
 
   steps:
