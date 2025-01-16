@@ -8,7 +8,7 @@ spec:
   type: service
 
   steps:
-    - id: backstage-request
+    - id: backstage_request
       name: backstage request
       action: http:backstage:request
       input:
