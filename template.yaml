@@ -1,40 +1,37 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: HTTP-testing
-  title: Http testing for post/get
-  description: Testing get functionality with get
+  name: test-debug-action
+  title: 'Debug Template'
+  description: Testing template
+
+  tags:
+    - kafka
+    - topic
+    - consumer
+    - producer
+  links:
+    - url: https://google.com
+      title: Guida al Template
 spec:
-  type: service
+  type: 'Risorse tecniche'
+  parameters:
+    - title: Informazioni Generali 
+      required:
+        - ambiente
+
+      properties:
+        ambiente:
+          title: Ambiente del Topic AMQ Streams
+          type: string
+          description: Testing
+          default: 'Suhas'
+          readOnly: true
+        
 
   steps:
-    - id: backstage_request
-      name: backstage request
-      action: http:backstage:request
-      input:
-        method: 'GET'
-        path: '/proxy/httpbin/headers'
-        headers:
-          test: 'hello'
-          foo: 'bar'
-
-    - id: log-response
-      name: Log response
+    - id: debugLog
+      name: debuglog
       action: debug:log
       input:
-        message: |
-          **Status code:**
-          ${{ steps.backstage-request.output.code }}
-
-          **User-Agent:**
-          ${{ steps.backstage-request.output.headers["user-agent"] }}
-
-  output:
-    text:
-      - title: Response
-        content: |
-          **Status code:**
-          ${{ steps.backstage-request.output.code }}
-
-          **User-Agent:**
-          ${{ steps.backstage-request.output.headers["user-agent"] }}
+        message: this is a test message
