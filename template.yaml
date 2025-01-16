@@ -1,0 +1,36 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: test-debug-action
+  title: 'Debug Template'
+  description: Template per la creazione di massimo 4 nuovi topic su Red Hat AMQ Streams. Permette, inoltre, la registrazione di un singolo microservizio come producer/consumer per tutti i topic. Non è possibile inserire più di un microservizio.
+  tags:
+    - kafka
+    - topic
+    - consumer
+    - producer
+  links:
+    - url: https://google.com
+      title: Guida al Template
+spec:
+  owner: group:default/devhub_admin
+  type: 'Technical Resources'
+  parameters:
+    - title: Testing Suhas 
+      required:
+        - ambiente
+
+      properties:
+        ambiente:
+          title: Testing 
+          type: string
+          description: Testing Suhas
+          default: 'Testing'
+          readOnly: true
+        
+  steps:
+    - id: debugLog
+      name: debuglog
+      action: debug:log
+      input:
+        message: this is a test message
